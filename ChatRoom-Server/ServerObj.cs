@@ -36,9 +36,12 @@ namespace ChatRoom_Server
                 while (true)
                 {
                     TcpClient tcpClient = await tcpListener.AcceptTcpClientAsync();
-                    ClientObj clientObj = new ClientObj(tcpClient, this);
-                    AddConnection(clientObj);
-                    Task.Run(clientObj.ProcessAsync);
+                    if (tcpClient != null)
+                    {
+                        ClientObj clientObj = new ClientObj(tcpClient, this);
+                        AddConnection(clientObj);
+                        Task.Run(clientObj.ProcessAsync);
+                    }
 
                 }
 

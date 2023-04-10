@@ -24,7 +24,7 @@ namespace ChatRoom_Server
             Writer = new StreamWriter(stream);
             enterTime = DateTime.Now;
 
-            //server.AddConnection(this); ;
+            //server.AddConnection(this); 
         }
 
         public async Task ProcessAsync() {
@@ -35,6 +35,7 @@ namespace ChatRoom_Server
                 string message = $"{userName} entered in chat";
                 await server.BroadCastMessageAsync(message, Id);
                 Console.WriteLine(message);
+                //message = null;
                 //reading in cicle infinity message from client
                 while (true)
                 {
@@ -42,6 +43,7 @@ namespace ChatRoom_Server
                     {
                         message = await Reader.ReadLineAsync();
                         //TimeSpan interval=DateTime.Now- enterTime;
+                        if (message == null) continue;
                         TimeSpan interval = DateTime.Now.Subtract(enterTime);
                         message = $"{userName} ({interval.Minutes} min {interval.Seconds} in chat) : {message}";
                         Console.WriteLine(message);
@@ -66,16 +68,14 @@ namespace ChatRoom_Server
             finally {
                 server.RemoveConnection(Id);
             }
-
-
-           
+                      
         }
 
         protected internal void Close()
         {
-            Writer.Close();
-            Reader.Close();
-            client.Close();
+            Writer?.Close();
+            Reader?.Close();
+            client?.Close();
         }
     }
 }
