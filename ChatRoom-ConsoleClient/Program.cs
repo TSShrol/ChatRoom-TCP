@@ -16,6 +16,7 @@ namespace ChatRoom_ConsoleClient
         static void Main(string[] args)
         {
             Start();
+
         }
 
         static void Start() {
@@ -32,7 +33,12 @@ namespace ChatRoom_ConsoleClient
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                
+
+            }
+            finally {
+                reader?.Close();
+                writer?.Close();
+                client?.Close();
             }
             
             
@@ -45,7 +51,7 @@ namespace ChatRoom_ConsoleClient
                     //reading response by line
                     string message = await reader.ReadLineAsync();
                     
-                    if (string.IsNullOrEmpty(message)) {
+                    if (!string.IsNullOrEmpty(message)) {
                         Console.WriteLine(message);
                     }
                 }

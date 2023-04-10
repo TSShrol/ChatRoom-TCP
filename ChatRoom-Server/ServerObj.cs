@@ -70,11 +70,11 @@ namespace ChatRoom_Server
         protected internal async Task BroadCastMessageAsync(string message, string id) {
             foreach (var client in clients)
             {
-                if (client.Id != id) {
+               // if (client.Id != id) {
 
-                    await client.Writer.WriteAsync(message);
+                    await client.Writer.WriteLineAsync(message);
                     await client.Writer.FlushAsync();
-                }
+                //}
             }
         }
 
